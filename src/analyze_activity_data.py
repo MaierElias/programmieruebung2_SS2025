@@ -68,12 +68,14 @@ import plotly.express as px
 
 def create_plot():
     fig = px.line(dataframe, y = ["PowerOriginal", "HeartRate"],
-                  labels = {"value": "Watt / Herzfrequenz", "index": "Zeit / [s]"})
+                  labels = {"value": "Watt / Herzfrequenz", "index": "Zeit / [s]"},
+                  color_discrete_map= {"PowerOriginal": "royalblue", 
+                                       "HeartRate": "crimson"},)
     
      # Farben für die Zonen
     zone_colors = {
-        "Zone 1": "lightblue",
-        "Zone 2": "lightgreen",
+        "Zone 1": "skyblue",
+        "Zone 2": "green",
         "Zone 3": "yellow",
         "Zone 4": "orange",
         "Zone 5": "red"
@@ -90,14 +92,14 @@ def create_plot():
         fig.add_hrect(
             y0=y0, y1=y1,
             fillcolor=zone_colors.get(zone_name, "gray"),
-            opacity=0.3,
+            opacity=0.5,
             layer="below",
             line_width=0
         )
         fig.add_hrect(
             y0=0, y1 = 96.5,
             fillcolor = "lightgray",
-            opacity=0.3,
+            opacity=0.15,
             layer="below",
             line_width=0
         )
