@@ -64,13 +64,19 @@ df_groups[["PowerOriginal", "HeartRate"]]
 # %% erstellen eines interaktiven Plots
 import plotly.express as px
 
-# "PowerOriginal", "HeartRate" 
-
 def create_plot():
+    time = np.arange(0, len(dataframe))/60
     fig = px.line(dataframe, y = ["PowerOriginal", "HeartRate"],
-                  labels = {"value": "Watt / Herzfrequenz", "index": "Zeit / [s]"},
+                  x = time,
+                  labels =  {"PowerOriginal": "Leistung [Watt]",
+                             "HeartRate": "Herzfrequenz [Bpm]",
+                             "value": "[W] / [Bpm]",
+                             "x": "Zeit / [min]",
+                             "variable": "Messgrößen"
+                             },
+                  title = "Leistung und Herzfrequenz über Zeit",
                   color_discrete_map= {"PowerOriginal": "royalblue", 
-                                       "HeartRate": "crimson"},)
+                                       "HeartRate": "crimson"})
     
      # Farben für die Zonen
     zone_colors = {
