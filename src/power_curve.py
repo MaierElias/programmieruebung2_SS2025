@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 if __name__ == "__main__":
-    data = load_data('data/activity.csv')
+    data = load_data('data/activities/activity.csv')
     power_W = data['PowerOriginal']
     print(power_W)
     sorted_power_W = bubble_sort(power_W)
