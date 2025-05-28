@@ -1,7 +1,7 @@
 
 #%% Zelle 1
 import pandas as pd
-
+import numpy as np
 dataframe = pd.read_csv('data/activities/activity.csv')
 dataframe
 # %%
@@ -63,8 +63,44 @@ df_groups = dataframe.groupby("Zone").mean()
 df_groups[["PowerOriginal", "HeartRate"]]
 # %% erstellen eines interaktiven Plots
 import plotly.express as px
+
+# "PowerOriginal", "HeartRate" 
+
 def create_plot():
-    fig = px.line(dataframe[["PowerOriginal", "HeartRate"]], y = ["PowerOriginal", "HeartRate"])
-    fig.show()
+    fig = px.line(dataframe, y = ["PowerOriginal", "HeartRate"],
+                  labels = {"value": "Watt / Herzfrequenz", "index": "Zeit / [s]"})
+    
+     # Farben für die Zonen
+    zone_colors = {
+        "Zone 1": "lightblue",
+        "Zone 2": "lightgreen",
+        "Zone 3": "yellow",
+        "Zone 4": "orange",
+        "Zone 5": "red"
+    }
+
+    # Zonen als Hintergrund einzeichnen
+    for i in range(1, 6):
+        zone_name = f"Zone {i}"
+        y0 = untergrenzen_zonen.get(zone_name, 0)
+        if i < 5:
+            y1 = untergrenzen_zonen.get(f"Zone {i+1}", dataframe["HeartRate"].max())
+        else:
+            y1 = dataframe["HeartRate"].max()
+        fig.add_hrect(
+            y0=y0, y1=y1,
+            fillcolor=zone_colors.get(zone_name, "gray"),
+            opacity=0.3,
+            layer="below",
+            line_width=0
+        )
+        fig.add_hrect(
+            y0=0, y1 = 96.5,
+            fillcolor = "lightgray",
+            opacity=0.3,
+            layer="below",
+            line_width=0
+        )
     return fig
+# np.min(untergrenzen_zonen), np.max(untergrenzen_zonen)
 # %%
