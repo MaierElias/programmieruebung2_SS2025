@@ -26,15 +26,16 @@ image = Image.open(get_person_image_by_name(st.session_state.selected_person))
 # Anzeigen eines Bilds mit Caption
 st.image(image, caption=st.session_state.selected_person)
 
+# Darstellen der Daten
+
 st.plotly_chart(create_plot())
 
-# Zonen-Häufigkeit (z.B. Minuten pro Zone)
-zone_counts = dataframe["Zone"].value_counts().rename("Minuten").sort_index()/60
+# Hinzufügen der Tabelle (Durchschnittsleistung pro Zone und verbrachte Zeit in Minuten pro Zone)
 
-# Durchschnittsleistung pro Zone berechnen
-mean_power_per_zone = dataframe.groupby("Zone")["PowerOriginal"].mean().rename("Durchschnittsleistung").sort_index()
+zone_counts = dataframe["Zone"].value_counts().rename("Verbrachte Zeit / [min]").sort_index(ascending = False)/60 # Zonen-Häufigkeit (Minuten pro Zone)
 
-# Beide Infos in einem DataFrame zusammenführen
-result_df = pd.concat([zone_counts, mean_power_per_zone], axis=1)
+mean_power_per_zone = dataframe.groupby("Zone")["PowerOriginal"].mean().rename("Durchschnittsleistung / [W]").sort_index() # Durchschnittsleistung pro Zone
+
+result_df = pd.concat([zone_counts, mean_power_per_zone], axis=1) # Zusammenführen der Daten
 
 st.dataframe(result_df)

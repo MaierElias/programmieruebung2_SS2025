@@ -40,5 +40,5 @@ Erstellen einer Grafik, welche die sortierten Wattzahlen mit Hilfe von Matplotli
 
 ## Anwendung der App
 
-1. Sicherstellen, dass virtuelle Umgebung aktioviert ist `.venv/Scripts/activate`
+1. Sicherstellen, dass virtuelle Umgebung aktiviert ist `.venv/Scripts/activate`
 2. Abhängigkeiten installieren `streamlit run main.py`
