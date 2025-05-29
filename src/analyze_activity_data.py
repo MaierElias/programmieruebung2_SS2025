@@ -69,8 +69,7 @@ def create_plot():
     time = np.arange(0, len(dataframe))/60
     fig = px.line(dataframe, y = ["PowerOriginal", "HeartRate"],
                   x = time,
-                  labels =  {"PowerOriginal": "Leistung [Watt]",
-                             "HeartRate": "Herzfrequenz [Bpm]",
+                  labels =  {
                              "value": "[W] / [Bpm]",
                              "x": "Zeit / [min]",
                              "variable": "Messgrößen"
@@ -78,10 +77,11 @@ def create_plot():
                   title = "Leistung und Herzfrequenz über Zeit",
                   color_discrete_map= {"PowerOriginal": "royalblue", 
                                        "HeartRate": "crimson"})
+    
     fig.for_each_trace(
         lambda t: t.update(name="Leistung [W]" if t.name == "PowerOriginal" else "Herzfrequenz [Bpm]")
     )
-    
+
      # Farben für die Zonen
     zone_colors = {
         "Zone 1": "skyblue",
