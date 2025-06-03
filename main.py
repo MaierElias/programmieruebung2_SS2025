@@ -26,9 +26,17 @@ image = Image.open(get_person_image_by_name(st.session_state.selected_person))
 # Anzeigen eines Bilds mit Caption
 st.image(image, caption=st.session_state.selected_person)
 
+# Input der maximalen Herzfrequenz
+max_hr = st.number_input(
+    "Bitte maximale Herzfrequenz eingeben:",
+    min_value=100,
+    max_value=250,
+    value=190,
+    step=1
+)
 # Darstellen der Daten
 
-st.plotly_chart(create_plot())
+st.plotly_chart(create_plot(max_hr))
 
 # Hinzufügen der Tabelle (Durchschnittsleistung pro Zone und verbrachte Zeit in Minuten pro Zone)
 
@@ -40,10 +48,3 @@ result_df = pd.concat([zone_counts, mean_power_per_zone], axis=1) # Zusammenfüh
 
 st.dataframe(result_df)
 
-max_hr = st.number_input(
-    "Bitte maximale Herzfrequenz eingeben:",
-    min_value=100,
-    max_value=250,
-    value=190,
-    step=1
-)
