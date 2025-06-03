@@ -39,3 +39,11 @@ mean_power_per_zone = dataframe.groupby("Zone")["PowerOriginal"].mean().rename("
 result_df = pd.concat([zone_counts, mean_power_per_zone], axis=1) # Zusammenführen der Daten
 
 st.dataframe(result_df)
+
+max_hr = st.number_input(
+    "Bitte maximale Herzfrequenz eingeben:",
+    min_value=100,
+    max_value=250,
+    value=190,
+    step=1
+)

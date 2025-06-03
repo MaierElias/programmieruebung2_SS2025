@@ -65,6 +65,7 @@ df_groups[["PowerOriginal", "HeartRate"]]
 import plotly.express as px
 
 def create_plot():
+  
 
     time = np.arange(0, len(dataframe))/60
     fig = px.line(dataframe, y = ["PowerOriginal", "HeartRate"],
