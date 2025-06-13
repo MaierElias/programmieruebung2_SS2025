@@ -63,6 +63,20 @@ class EKGdata:
                     name='Peaks')
         return self.fig 
 
+    def estimate_heart_rate(self, threshold=340):
+        """
+        Diese Funktion schätzt die Herzfrequenz basierend auf den gefundenen Peaks.
+        """
+        list_of_peaks = self.find_peaks(threshold)
+        if len(list_of_peaks) < 2:
+            return None
+        # Berechne die Zeitdifferenz zwischen den Peaks
+        peak_intervals = [self.df.iloc[list_of_peaks[i+1]]['Zeit in ms'] - self.df.iloc[list_of_peaks[i]]['Zeit in ms'] for i in range(len(list_of_peaks)-1)]
+        # Berechne die durchschnittliche Zeitdifferenz
+        average_interval = sum(peak_intervals) / len(peak_intervals)
+        # Berechne die Herzfrequenz in bpm (Beats per Minute)
+        heart_rate = 60000 / average_interval if average_interval > 0 else None
+        return heart_rate
 
 if __name__ == "__main__":
     print("This is a module with some functions to read the EKG data")
@@ -73,4 +87,6 @@ if __name__ == "__main__":
     ekg = EKGdata(ekg_dict)
     print(ekg.df.head())
     test_ekg = EKGdata(ekg_dict)
-    test_ekg.plot_time_series().show(renderer="browser")
+    # test_ekg.plot_time_series().show(renderer="browser")
+    test_ekg.estimate_heart_rate()
+    print("Estimated Heart Rate:", test_ekg.estimate_heart_rate(), "[BPM]")
