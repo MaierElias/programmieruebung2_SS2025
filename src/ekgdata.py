@@ -2,7 +2,6 @@ import json
 import pandas as pd
 import plotly.express as px
 
-# %% Objekt-Welt
 from person import Person
 # Klasse EKG-Data für Peakfinder, die uns ermöglicht peaks zu finden
 
@@ -53,7 +52,7 @@ class EKGdata:
 
         # Erstellte einen Line Plot, der ersten 2000 Werte mit der Zeit aus der x-Achse
         self.fig = px.line(self.df.head(2000), x="Zeit in ms", y="Messwerte in mV")
-        #return self.fig 
+        return self.fig 
 
 
 if __name__ == "__main__":
@@ -64,3 +63,5 @@ if __name__ == "__main__":
     print(ekg_dict)
     ekg = EKGdata(ekg_dict)
     print(ekg.df.head())
+    test_ekg = EKGdata(ekg_dict)
+    test_ekg.plot_time_series().show(renderer="browser")
