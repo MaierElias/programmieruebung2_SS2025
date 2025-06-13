@@ -48,10 +48,19 @@ class EKGdata:
                     list_of_peaks.append(index)
         return list_of_peaks
 
-    def plot_time_series(self):
+    def plot_time_series(self, threshold=340):
 
         # Erstellte einen Line Plot, der ersten 2000 Werte mit der Zeit aus der x-Achse
-        self.fig = px.line(self.df.head(2000), x="Zeit in ms", y="Messwerte in mV")
+        list_of_peaks = self.find_peaks(threshold)
+        self.df["is_peak"] = False
+        self.df.loc[list_of_peaks, "is_peak"] = True
+
+        self.fig = px.line(self.df.head(5000), x="Zeit in ms", y="Messwerte in mV", title='EKG Data with Peaks Highlighted')
+        self.fig.add_scatter(x= self.df.iloc[self.find_peaks(threshold)]['Zeit in ms'], 
+                    y=self.df.loc[self.df["is_peak"], 'Messwerte in mV'], 
+                    mode='markers', 
+                    marker=dict(color='red', size=5), 
+                    name='Peaks')
         return self.fig 
 
 
