@@ -4,7 +4,8 @@ import pandas as pd
 from PIL import Image
 
 from src.read_data import get_person_names, get_person_data_by_name, get_person_image_by_name
-
+from src.person import Person
+from src.ekgdata import EKGdata
 from src.analyze_activity_data import create_plot, dataframe
 
 if "selected_person" not in st.session_state:
@@ -16,13 +17,17 @@ st.write("## Zweite Überschrift")
 
 st.write ("This is a simple Streamlit app to demonstrate the setup")
 
-st.session_state.selected_person = st.selectbox("Wähle eine Versuchsperson", options = get_person_names())
+person_data = Person.load_person_data()
+list_of_persons = Person.get_person_list(person_data)
+
+st.session_state.selected_person = st.selectbox("Wähle eine Versuchsperson", options = list_of_persons)
 
 st.write(st.session_state.selected_person)
 
 # Laden eines Bilds
-selected_person_data = get_person_data_by_name(st.session_state.selected_person)
-image = Image.open(get_person_image_by_name(st.session_state.selected_person))
+selected_person_data = Person.find_person_data_by_name(str(st.session_state.selected_person))
+person_image = selected_person_data["picture_path"]
+image = Image.open(person_image)
 # Anzeigen eines Bilds mit Caption
 st.image(image, caption=st.session_state.selected_person)
 
@@ -48,3 +53,15 @@ result_df = pd.concat([zone_counts, mean_power_per_zone], axis=1) # Zusammenfüh
 
 st.dataframe(result_df)
 
+# Hinzufügen der EKG-Daten
+threshold = st.number_input(
+    "Bitte Schwellenwert für EKG-Peaks eingeben:",
+    min_value=100,
+    max_value=500,
+    value=340,
+    step=1
+)
+# Darstellen der Daten
+ekg_dict = selected_person_data["ekg_tests"][0] 
+ekg_data = EKGdata(ekg_dict)
+st.plotly_chart(ekg_data.plot_time_series(threshold))

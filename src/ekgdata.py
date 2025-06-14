@@ -2,8 +2,7 @@ import json
 import pandas as pd
 import plotly.express as px
 
-from person import Person
-# Klasse EKG-Data für Peakfinder, die uns ermöglicht peaks zu finden
+from src.person import Person
 
 class EKGdata:
 
@@ -86,7 +85,9 @@ if __name__ == "__main__":
     print(ekg_dict)
     ekg = EKGdata(ekg_dict)
     print(ekg.df.head())
+
     test_ekg = EKGdata(ekg_dict)
-    # test_ekg.plot_time_series().show(renderer="browser")
-    test_ekg.estimate_heart_rate()
     print("Estimated Heart Rate:", test_ekg.estimate_heart_rate(), "[BPM]")
+    test_ekg.plot_time_series().show(renderer="browser")
+    # test_ekg.estimate_heart_rate()
+    
