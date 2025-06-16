@@ -65,3 +65,7 @@ threshold = st.number_input(
 ekg_dict = selected_person_data["ekg_tests"][0] 
 ekg_data = EKGdata(ekg_dict)
 st.plotly_chart(ekg_data.plot_time_series(threshold))
+# Anzeigen der geschätzten durchschnittlichen Herzfrequenz
+heart_rate = ekg_data.estimate_heart_rate(threshold)
+if heart_rate is not None:
+    st.write(f"Geschätzte Herzfrequenz: {heart_rate} [BPM]")
